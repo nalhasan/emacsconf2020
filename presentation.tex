@@ -1,0 +1,273 @@
+% Created 2020-11-28 Sat 13:05
+% Intended LaTeX compiler: xelatex
+\documentclass[presentation,xcolor=table]{beamer}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[style=apa,natbib=true,hyperref=true,backref=true,maxcitenames=3,url=true,backend=biber,doi=true,isbn=false,eprint=false]{biblatex}
+\addbibresource{C:/Users/Noorah/Dropbox/Dissertation/library.bib}
+\definecolor{purple_royal}{RGB}{69, 28, 102}
+\definecolor{purple_plain}{RGB}{131, 102, 188}
+\definecolor{grey}{RGB}{51, 63, 72}
+\definecolor{DodgerBlue4}{RGB}{16, 78, 139}
+\definecolor{PaleGreen1}{RGB}{154, 255, 154}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,enumerate,multirow,array,graphicx,lscape,lastpage,mathabx,csquotes}
+\usetheme{CambridgeUS}
+\usepackage{fontawesome}
+\hypersetup{linktoc = all, colorlinks = true, urlcolor = DodgerBlue4, citecolor = PaleGreen1, linkcolor = black}
+\usefonttheme{professionalfonts}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{subfig}
+\setbeamercolor{title}{fg=black}
+\setbeamercolor{frametitle}{fg=black}
+\setbeamercolor{structure}{fg=purple_royal}
+\setbeamercolor{section in head/foot}{fg=white, bg=purple_plain}
+\setbeamercolor{title in head/foot}{fg=white, bg=purple_royal}
+\setbeamercolor{date in head/foot}{fg=grey}
+\captionsetup[figure]{labelformat=empty}
+\setbeamertemplate{footline}
+{
+\leavevmode%
+\hbox{%
+\begin{beamercolorbox}[wd=.75\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+\usebeamerfont{author in head/foot}\inserttitle
+\end{beamercolorbox}%
+%\begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,center]{section in head/foot}%
+%\usebeamerfont{title in head/foot}\insertsection
+%\end{beamercolorbox}%
+\begin{beamercolorbox}[wd=.25\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+\insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+\end{beamercolorbox}}%
+\vskip0pt%
+}
+\subtitle{EmacsConf 2020}
+\author{Noorah Alhasan}
+\setbeamersize{text margin right=7mm}
+\setbeameroption{show notes}
+\titlegraphic{\includegraphics[width=0.2\textwidth,height=.25\textheight]{emacsconf.png}
+\hspace*{0.5cm}~%
+\includegraphics[width=0.2\textwidth,height=.25\textheight]{org-mode-unicorn-logo.png}
+\hspace*{0.5cm}~%
+\includegraphics[width=0.2\textwidth,height=.25\textheight]{org-roam.png}
+\hspace*{0.5cm}~%
+\includegraphics[width=0.2\textwidth,height=.25\textheight]{orb.png}}
+\usetheme{default}
+\author{Noorah Alhasan}
+\date{\today}
+\title{Org-mode and Org-roam for Scholars and Researchers}
+\begin{document}
+
+\maketitle
+
+
+
+\begin{frame}[fragile,allowframebreaks]{Introduction}
+
+ \centering
+\begin{figure}
+\includegraphics[height=0.5\textheight]{meme2.png}
+\includegraphics[height=0.5\textheight]{meme1.png}
+\caption{The research process: expectation versus reality \textsuperscript{a,b}}
+\end{figure}
+
+\raggedright
+
+
+\scriptsize{\textsuperscript{a} My PhD Quotes. ``Progress is too messy to notice. Don't imagine it like a staircase." \textit{Instagram}, March 3, 2020. Accessed November 25, 2020. \url{https://bit.ly/39loTSf}}
+
+\scriptsize{\textsuperscript{b} My PhD Quotes. ``The most relatable post to describe my current situation." \textit{Instagram}, February 28, 2020. Accessed November 25, 2020. \url{https://bit.ly/3mk2U1K}}
+
+\normalsize
+
+\framebreak
+
+\begin{itemize}
+\item Motivation
+\begin{itemize}
+\item Research is hard
+\item Writing is even more difficult
+\end{itemize}
+\item Goal is to add some \emph{structure} to the \textbf{madness}. (Unfortunately, the madness never stops)
+\begin{itemize}
+\item \texttt{Org-mode}: planning, time-management, document creation (manuscripts and presentations)
+\begin{itemize}
+\item \texttt{Org-super-agenda}: customized way of viewing agenda
+\item \texttt{Org-sidebar}: buffer-specific agenda/ \texttt{TODO} view.
+\item \texttt{Org-roam}: note-taking and general writing, knowledge creation
+\item \texttt{Org-roam-bibtex}: reference management, literature review
+\item \texttt{Org-roam-server}: visualize your knowledge database
+\item \texttt{Org-transclusion}: transclude text from `branch' org files to `main' org file.
+\end{itemize}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label={sec:org2755a23}]{Org-mode modules}
+\begin{center}
+\includegraphics[width=0.75\textwidth]{org-mode2.png}
+\end{center}
+\end{frame}
+
+
+
+\begin{frame}[label={sec:org8b6026e}]{Planning}
+\begin{itemize}
+\item Activities
+\begin{itemize}
+\item Task management (pomodoro method; time-blocking)
+\item Time management (appointments; time-blocking)
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,allowframebreaks]{\texttt{TODO}'s and tags}
+ \small
+
+\begin{itemize}
+\item These are identifiers in an org-file as tasks or reminders.
+\item The types of \texttt{TODO}'s can either be set \textbf{globally} in your init file, or they can be \textbf{file/buffer} specific.
+\item They are created as a subtree (think `heading'), or in-line (\texttt{'org-inlinetask}).
+\item You can assign deadlines, scheduled date and time, active timestamps, and inactive timestamps.
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{todo-buffer.png}
+\end{center}
+
+\normalsize
+\end{frame}
+
+\begin{frame}[label={sec:org920cdb4},fragile]{Org-capture}
+ These are customizable org-headings that you can create on-the-go. They can be regular \texttt{TODO}'s or just notes.
+
+
+\centering
+\begin{figure}
+\includegraphics[width=0.3\textwidth]{6.png}
+\includegraphics[width=0.65\textwidth]{org-capture-config.png}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}[fragile,allowframebreaks]{Org-agenda}
+ \begin{itemize}
+\item Populates all your \texttt{TODO}'s and appointments into a singular view.
+\begin{itemize}
+\item Default is week-view.
+\end{itemize}
+\item Using \texttt{org-super-agenda}, I set up my agenda as a daily view with appointments, deadlines, and a habit tracker.
+\item \textbf{NOTE}: I am STILL struggling with it, so it's a \textbf{PrOcEsS}.
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=0.75\textwidth]{org-super-agenda.png}
+\end{center}
+
+\centering
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{org-agenda-timeblocking2.png}
+\includegraphics[width=0.45\textwidth]{org-timeblocking.png}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}[label={sec:org0e851ba},fragile]{Org-sidebar}
+ Another way of accessing your \texttt{TODO}'s that are outside of your agenda. I am using it to keep my project-specific \texttt{TODO}'s in the main project org file.
+
+
+\begin{center}
+\includegraphics[width=0.75\textwidth]{org-sidebar.png}
+\end{center}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Literature review (writing + reference management)}
+\begin{center}
+\includegraphics[width=0.55\textwidth]{lit_review2.png}
+\end{center}
+
+\begin{center}
+\includegraphics[width=0.9\textwidth]{lit_review.png}
+\end{center}
+
+\framebreak
+
+\textbf{Zotero}: open-source reference management software
+\begin{itemize}
+\item \textbf{BetterBibTex}: automatically creates well-formated bib files and manages reference keys in a systematic way.
+\item \textbf{ZotFile}: Efficient plug-in to organize PDFs.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,allowframebreaks]{Org-roam}
+ A note-taking package that replicates Roam Research which is based on the Zettelkasten method. I use it to build my literature review and I use \texttt{org-roam-server} to visualize my notes into a network.
+
+\begin{itemize}
+\item It builds on the strength of \texttt{org-mode}'s hyperlinking properties.
+\end{itemize}
+
+
+\centering
+\begin{figure}
+\includegraphics[width=0.3\textwidth]{7.png}
+\includegraphics[width=0.65\textwidth]{org-roam2.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile,allowframebreaks]{Org-roam-bibtex}
+ Utilizes a combination of \texttt{org-ref}, \texttt{helm-bibtex}, and \texttt{bibtex-completion} to streamline note-taking workflow with references within the \texttt{org-roam} ecosystem.
+
+\centering
+\begin{figure}
+\includegraphics[width=0.65\textwidth]{orb-article.png}
+\includegraphics[width=0.45\textwidth]{orb-config.png}
+\end{figure}
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{orb-book.png}
+\end{center}
+\end{frame}
+
+\begin{frame}[label={sec:orgd61e046},fragile]{Org-noter}
+ \begin{itemize}
+\item I use it to annotate PDFs and take notes within the same buffer.
+\begin{itemize}
+\item Works extremely well with \texttt{PDF-tools}.
+\item \texttt{org-noter-create-skeleton}
+\end{itemize}
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=\textwidth]{org-noter.png}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile,allowframebreaks]{Org-transclusion}
+ \begin{itemize}
+\item An effective way of ``copy/pasting'' text from one org file (let's say an org-roam note or a section of your thesis/dissertation) into your main org file.
+\item It will export all the transcluded text.
+\item Sort of equivalent to ``\texttt{\#+INCLUDE:}''
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=0.6\textwidth]{org-include.png}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth]{org-transclusion.png}
+\end{center}
+\end{frame}
+
+\begin{frame}[label={sec:org6855e8b},fragile]{Thank you!}
+ \begin{block}{Special thanks}
+\begin{itemize}
+\item \href{https://github.com/jethrokuan}{@jethrokuan} (\texttt{org-roam})
+\item \href{https://github.com/zaeph}{@zaeph} (\texttt{org-roam-bibtex}; \texttt{org-roam})
+\item \href{https://github.com/myshevchuk}{@myshevchuk} (\texttt{org-roam-bibtex})
+\item \href{https://github.com/goktug97}{@goktug97} (\texttt{org-roam-server})
+\item \href{https://github.com/nobiot}{@nobiot} (\texttt{org-transclusion})
+\item \href{https://github.com/alphapapa}{@alphapapa} (\texttt{org-super-agenda}; \texttt{org-sidebar})
+\end{itemize}
+\end{block}
+\end{frame}
+\end{document}

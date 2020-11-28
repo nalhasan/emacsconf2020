@@ -1,0 +1,589 @@
+#+TITLE: Some of my emacs config
+#+AUTHOR: Noorah Alhasan
+#+DATE: \today
+
+
+* Theme and faces
+
+** Modus operandi
+
+#+BEGIN_SRC emacs-lisp
+(require 'modus-operandi-theme)
+
+(setq modus-operandi-theme-faint-syntax t)
+(setq modus-vivendi-theme-faint-syntax t)
+(setq modus-operandi-theme-diffs 'desaturated) ; {nil,'desaturated,'fg-only}
+(setq modus-vivendi-theme-diffs 'desaturated) ; {nil,'desaturated,'fg-only}
+(setq modus-operandi-theme-org-blocks 'greyscale) ; {nil,'greyscale,'rainbow}
+(setq modus-vivendi-theme-org-blocks 'greyscale) ; {nil,'greyscale,'rainbow}
+(setq modus-operandi-theme-intense-paren-match t)
+(setq modus-vivendi-theme-intense-paren-match t)
+
+(load-theme 'modus-operandi t)
+#+END_SRC
+
+
+** Font
+#+BEGIN_SRC emacs-lisp
+(set-face-attribute 'variable-pitch nil :font "Lato" :height 160)
+(set-face-attribute 'fixed-pitch nil :font "Noto Mono" :height 160)
+(set-face-attribute 'default nil :font "Noto Mono" :height 160)
+(set-fontset-font nil 'symbol (font-spec :family "Segoe UI Symbol" :height 100))
+(add-hook 'text-mode-hook #'variable-pitch-mode)
+#+END_SRC
+
+* Olivetti
+
+Look & Feel for long-form writing
+
+Set the body text width
+
+#+BEGIN_SRC emacs-lisp
+(setq olivetti-body-width 80)
+
+;;; Enable Olivetti for text-related mode such as Org Mode
+(add-hook 'text-mode-hook 'olivetti-mode)
+;; info-mode-hook does not seem to work
+(add-hook 'info-mode-hook 'olivetti-mode)
+#+END_SRC
+
+* Startup settings
+
+#+BEGIN_SRC  emacs-lisp
+(setq display-time-day-and-date t)
+(display-time)
+(display-time-mode 1)
+(delete-selection-mode 1)
+(add-hook 'after-init-hook (lambda () (org-agenda nil "o")))
+(toggle-frame-maximized)
+
+(setq-default bidi-paragraph-direction nil)
+(setq-default bidi-paragraph-separate-re "^"
+      bidi-paragraph-start-re "^")
+(setq-default bidi-display-reordering t)
+(defun set-bidi-env ()
+"interactive"
+(setq bidi-paragraph-direction 'nil))
+(add-hook 'org-mode-hook 'set-bidi-env)
+#+END_SRC
+
+* System settings
+
+#+BEGIN_SRC  emacs-lisp
+(prefer-coding-system 'utf-8)
+(when (display-graphic-p)
+    (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
+
+
+(setq org-directory "~/Dropbox/orgfiles/")
+(setq org-roam-directory "~/Dropbox/org/")
+
+
+(setq display-line-numbers-type nil)
+#+END_SRC
+
+* Org settings
+
+#+BEGIN_SRC emacs-lisp
+(setq org-default-notes-file "~/Dropbox/orgfiles/inbox.org")
+(setq org-use-tag-inheritance nil)
+(setq org-startup-indented t)
+(setq org-hide-leading-stars t)
+(setq org-treat-S-cursor-todo-selection-as-state-change t)
+(setq org-hide-emphasis-markers t)
+(setq org-emphasis-alist
+      '(("*" bold)
+        ("_" underline)
+        ("/" italic)
+        ("=" (:foreground "black" :background "#fdfd96"))
+        ("~" org-verbatim verbatim)
+        ("+" (:strike-through t))))
+(setq org-support-shift-select t)
+(require 'org-inlinetask)
+(setq org-image-actual-width nil)
+(setq org-time-stamp-custom-formats '("<%A, %B %d, %Y>" . "<%m/%d/%y %a %H:%M>"))
+(setq org-archive-location (concat "Archive/Archive-"
+                                   (format-time-string "%Y%m" (current-time))
+                                   ".org_archive::"))
+(with-eval-after-load 'ox
+  (require 'ox-pandoc))
+(setq org-pandoc-options-for-beamer-pdf '((pdf-engine . "xelatex")))
+(setq org-export-with-smart-quotes t)
+#+END_SRC
+
+* Org-transclusion
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-mode-hook (lambda () (load-file "~/.emacs.d/.local/straight/repos/org-transclusion/org-transclusion.el")))
+#+END_SRC
+
+* Org-agenda settings
+
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-buffer-name "Agenda")
+(setq diary-file "~/Dropbox/orgfiles/gcal.org")
+(setq org-agenda-deadline-leaders '("DUE TODAY: " "In %3d d.: " "%2d d. ago: "))
+(setq org-agenda-scheduled-leaders '("SCH: " "Sched.%2dx: "))
+(setq org-agenda-hide-tags-regexp "work\\|paperwork\\|GCAL\\|refile\\|research\\|planner\\|noexport\\|health\\|ideas\\|notes\\|home\\|school\\|personal\\|tasks\\|proposal\\|habit")
+(setq org-agenda-dim-blocked-tasks t)
+(setq org-agenda-skip-scheduled-if-deadline-is-shown t)
+(setq org-agenda-todo-list-sublevels t)
+(setq org-agenda-block-separator nil)
+(setq org-agenda-tags-column 100)
+(setq org-agenda-compact-blocks t)
+(setq org-agenda-repeating-timestamp-show-all nil)
+(setq org-agenda-include-diary t)
+(setq org-agenda-include-deadlines t)
+(setq org-agenda-todo-ignore-deadlines 'future)
+(setq org-agenda-todo-ignore-scheduled 'future)
+(setq org-agenda-skip-scheduled-if-done t)
+(setq org-agenda-skip-deadline-if-done t)
+(setq org-agenda-skip-todo-if-done t)
+(setq org-agenda-skip-timestamp-if-done t)
+(setq org-deadline-warning-days 7)
+(setq org-scheduled-warning-days 7)
+(setq org-agenda-tags-column 0)
+#+END_SRC
+
+* LaTeX settings
+
+#+BEGIN_SRC emacs-lisp
+(setq org-latex-pdf-process
+     '("latexmk -g -pdf -pdflatex=\"%latex\" -shell-escape -outdir=%o %f"))
+(setq org-latex-compiler "xelatex")
+(setq latex-run-command "xelatex")
+(setq-default TeX-engine 'xetex)
+(setq-default TeX-PDF-mode t)
+(with-eval-after-load `tex-mode
+  (add-to-list 'tex-compile-commands
+               '("xelatex %f" t "%r.pdf")))
+(require 'ox-latex)
+(add-to-list 'org-latex-classes
+             '("beamer"
+               "\\documentclass\[presentation,xcolor=table\]\{beamer\}"
+               ("\\section\{%s\}" . "\\section*\{%s\}")
+               ("\\subsection\{%s\}" . "\\subsection*\{%s\}")
+               ("\\subsubsection\{%s\}" . "\\subsubsection*\{%s\}")))
+(add-to-list 'org-latex-classes
+			 '("texMemo"
+			   "\\documentclass\{texMemo\}"
+			   ("\\section\{%s\}" . "\\section*\{%s\}")
+			   ("\\subsection\{%s\}" . "\\subsection*\{%s\}")
+			   ("\\subsubsection\{%s\}" . "\\subsubsection*\{%s\}")))
+(require 'ox-beamer)
+(defun my-beamer-bold (contents backend info)
+  (when (eq backend 'beamer)
+    (replace-regexp-in-string "\\`\\\\[A-Za-z0-9]+" "\\\\textbf" contents)))
+
+(add-to-list 'org-export-filter-bold-functions 'my-beamer-bold)
+(customize-set-value 'org-latex-with-hyperref nil)
+(add-to-list 'org-latex-default-packages-alist "\\PassOptionsToPackage{hyphens}{url}")
+(eval-after-load 'org '(require 'org-pdfview))
+
+(add-to-list 'org-file-apps
+             '("\\.pdf\\'" . (lambda (file link)
+                                     (org-pdfview-open link))))
+#+END_SRC
+
+** Org- latex default packages
+
+#+BEGIN_SRC emacs-lisp
+(setq org-latex-default-packages-alist
+    '(("AUTO" "babel" t
+      ("xelatex"))
+      ("T1" "fontenc" t
+      ("xelatex"))))
+
+;; (setq org-latex-toc-command "\\tableofcontents \\clearpage")
+;; (setq org-latex-title-command "\\maketitle \\thispagestyle{empty} \\clearpage")
+#+END_SRC
+
+* Org-bullets
+
+#+BEGIN_SRC emacs-lisp
+(defcustom org-bullet ?\u2022
+  "Replacement for * as header prefixes."
+  :type 'characterp
+  :group 'org)
+(define-minor-mode org-bullet-mode
+    "Bullet for org-mode"
+  nil nil nil
+  (let* ((keyword
+           `(("^\\*+ "
+              (0 (let* ((level (- (match-end 0) (match-beginning 0) 1)))
+           (when (> level 1)
+             (put-text-property (match-beginning 0) (- (match-end 0) 2) 'display (make-string (1- level) org-bullet)))
+           (put-text-property (- (match-end 0) 2) (- (match-end 0) 1) 'display (string org-bullet))
+                   nil))))))
+    (if org-bullet-mode
+        (progn
+          (font-lock-add-keywords nil keyword)
+          (font-lock-ensure))
+      (save-excursion
+        (goto-char (point-min))
+        (font-lock-remove-keywords nil keyword)
+        (font-lock-ensure))
+      )))
+(add-hook 'org-mode-hook #'org-bullet-mode)
+(font-lock-add-keywords 'org-mode
+                        '(("^ +\\([-*]\\) "
+                           (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+#+END_SRC
+
+* Org-capture settings
+
+#+BEGIN_SRC emacs-lisp
+(setq org-capture-templates
+      '(("t" "TODO" entry (file+headline "~/Dropbox/orgfiles/inbox.org" "General Tasks")
+         "* TODO %? \nSCHEDULED:%^T")
+        ("a" "Appointment" entry (file  "~/Dropbox/orgfiles/gcal.org")
+         "* %? \n:PROPERTIES:\n:calendar-id: alhasan.noorah@gmail.com\n:LOCATION:\n:END:\n\n:org-gcal:\n%^T\n:END:\nLink: %a")
+        ("n" "Note" entry (file+headline "~/Dropbox/orgfiles/inbox.org" "Notes")
+         "* %?   \n%U\n%a\n")
+        ("r" "Research Tasks" entry (file+headline "~/Dropbox/orgfiles/inbox.org" "Research")
+         "* TODO %?  \nLink: %a")
+        ("m" "Meeting" entry (file+headline "~/Dropbox/orgfiles/inbox.org" "Meetings")
+         "* Meeting with %? \n%U")))
+#+END_SRC
+
+* Org-refile settings
+
+#+BEGIN_SRC emacs-lisp
+(setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                 (org-agenda-files :maxlevel . 9))))
+(setq org-refile-use-outline-path 'file)
+(setq org-refile-active-region-within-subtree t)
+(setq org-outline-path-complete-in-steps nil)
+(setq org-refile-allow-creating-parent-nodes (quote confirm))
+#+END_SRC
+
+* Org-noter settings
+
+#+BEGIN_SRC  emacs-lisp
+(pdf-loader-install)
+(use-package pdf-tools
+ :config
+ (setq-default pdf-view-display-size 'fit-page)
+ (setq pdf-annot-activate-created-annotations t)
+ (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
+ (add-hook 'pdf-view-mode-hook (lambda () (cua-mode 0)))
+ (setq pdf-view-resize-factor 1.1)
+ (define-key pdf-view-mode-map (kbd "h") 'pdf-annot-add-highlight-markup-annotation)
+ (define-key pdf-view-mode-map (kbd "t") 'pdf-annot-add-text-annotation)
+ (define-key pdf-view-mode-map (kbd "D") 'pdf-annot-delete))
+(use-package org-noter
+  :config
+  (setq org-noter-always-create-frame t
+        org-noter-separate-notes-from-heading t
+        org-noter-default-heading-title "Page $p$"
+        org-noter-auto-save-last-location t
+        org-noter-separate-notes-from-heading t
+        org-noter-doc-property-in-notes t
+        ))
+(setq org-noter-property-doc-file "INTERLEAVE_PDF"
+      org-noter-property-note-location "INTERLEAVE_PAGE_NOTE")
+#+END_SRC
+
+* Org-ref settings
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-ref)
+
+(setq reftex-default-bibliography '("~/Dropbox/Dissertation/library.bib"))
+(setq org-ref-default-bibliography '("~/Dropbox/Dissertation/library.bib")
+      org-ref-pdf-directory "~/Dropbox/Zotero/storage")
+(setq org-ref-default-citation-link "citep")
+(setq bibtex-dialect 'biblatex)
+(defun my/org-ref-open-pdf-at-point ()
+  "Open the pdf for bibtex key under point if it exists."
+  (interactive)
+  (let* ((results (org-ref-get-bibtex-key-and-file))
+         (key (car results))
+         (pdf-file (car (bibtex-completion-find-pdf key))))
+    (if (file-exists-p pdf-file)
+        (org-open-file pdf-file)
+      (message "No PDF found for %s" key))))
+(setq org-ref-open-pdf-function 'my/org-ref-open-pdf-at-point)
+(setq bibtex-completion-pdf-field "file")
+(setq bibtex-autokey-year-length 4
+      bibtex-autokey-name-year-separator ""
+      bibtex-autokey-year-title-separator ""
+      bibtex-autokey-titleword-separator ""
+      bibtex-autokey-titlewords 0
+      bibtex-autokey-titlewords-stretch 0
+      bibtex-autokey-titleword-length 0)
+(setq org-ref-notes-function 'orb-edit-notes)
+(setq org-ref-note-title-format
+  "* TODO %y -%t
+ :PROPERTIES:
+  :Custom_ID: %k
+  :AUTHOR: %9a
+  :JOURNAL: %j
+  :VOLUME: %v
+  :DOI: %D
+  :URL: %U
+ :END:
+
+")
+#+END_SRC
+
+* Bibtex-completion
+
+#+BEGIN_SRC emacs-lisp
+(setq-default bibtex-completion-bibliography "~/Dropbox/Dissertation/library.bib")
+(setq bibtex-completion-pdf-field "File")
+(setq bibtex-completion-notes-path "~/Dropbox/org")
+(setq bibtex-completion-notes-template-multiple-files
+ (concat
+  " ${title}\n"
+  "#+ROAM_KEY: cite:${=key=}\n\n\n"
+  "- tags ::\n"
+  "- keywords :: ${keywords}\n\n"
+  "* Meta information\n"
+  ":PROPERTIES:\n"
+  ":Custom_ID: ${=key=}\n"
+  ":INTERLEAVE_PDF: %(orb-process-file-field \"${=key=}\")\n"
+  ":AUTHOR: ${author-abbrev}\n"
+  ":JOURNAL: ${journaltitle}\n"
+  ":DATE: ${date}\n"
+  ":YEAR: ${year}\n"
+  ":DOI: ${doi}\n"
+  ":URL: ${url}\n"
+  ":END:\n\n"
+  ))
+#+END_SRC
+
+* Org-appt settings
+
+#+BEGIN_SRC emacs-lisp
+(require 'appt)
+
+(setq-default appt-display-mode-line t)
+(appt-activate 1)
+(org-agenda-to-appt 1)
+(appt-check 1)
+(setq appt-message-warning-time 60)
+(setq appt-display-interval 900)
+#+END_SRC
+
+* Org-variable-pitch settings
+
+#+BEGIN_SRC emacs-lisp
+(require 'org-variable-pitch)
+(setq org-variable-pitch-fixed-font "Noto Mono")
+(add-hook 'org-mode-hook 'org-variable-pitch-minor-mode)
+(setq org-variable-pitch-fixed-faces '(org-priority org-drawer line-number-current-line line-number font-lock-comment-face org-block org-block-begin-line org-block-end-line org-code org-document-info-keyword org-done org-formula org-indent org-meta-line org-special-keyword org-table org-todo org-verbatim org-date))
+#+END_SRC
+
+* Org-roam settings
+
+#+BEGIN_SRC emacs-lisp
+(setq org-roam-graph-executable "C:/Program Files/Graphviz 2.44.1/bin/dot.exe")
+(setq org-roam-graph-viewer "C:/Program Files/Google/Chrome/Application/chrome.exe")
+
+(defun my/org-roam--backlinks-list (file)
+  (if (org-roam--org-roam-file-p file)
+      (--reduce-from
+       (concat acc (format "- [[file:%s][%s]]\n"
+                           (file-relative-name (car it) org-roam-directory)
+                           (org-roam--get-title-or-slug (car it))))
+       "" (org-roam-sql [:select [from]
+                         :from links
+                         :where (= to $s1)
+                         :and from :not :like $s2] file "%private%"))
+    ""))
+
+(defun my/org-export-preprocessor (_backend)
+  (let ((links (my/org-roam--backlinks-list (buffer-file-name))))
+    (unless (string= links "")
+      (save-excursion
+        (goto-char (point-max))
+        (insert (concat "\n* Backlinks\n" links))))))
+
+(add-hook 'org-export-before-processing-hook 'my/org-export-preprocessor)
+
+(setq org-roam-capture-templates
+        '(("d" "default" plain
+           (function org-roam-capture--get-point)
+           "%?"
+           :file-name "%<%Y%m%d%H%M>-${slug}"
+           :head "#+TITLE: ${title}\n\n"
+           :unnarrowed t)))
+
+(setq org-roam-ref-capture-templates
+            '(("r" "ref" plain (function org-roam-capture--get-point)
+               "%?"
+               :file-name "websites/${slug}"
+               :head "#+TITLE: ${title}
+                      ,#+ROAM_KEY: ${ref}
+                      - source :: ${ref}"
+               :unnarrowed t)))
+(require 'org-protocol)
+(require 'org-roam-protocol)
+#+END_SRC
+
+* Org-roam-bibtex
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-roam-bibtex
+  :after (org-roam)
+  :hook (org-roam-mode . org-roam-bibtex-mode)
+  :config
+  (setq orb-preformat-keywords
+    '("=key=" "title" "url" "file" "author-or-editor" "keywords"))
+  (setq orb-autokey-format "%A%y")
+  (setq orb-pdf-scrapper-export-fields
+    '("author" "editor" "title" "journal" "date"))
+  (setq orb-templates
+        '(("r" "ref" plain (function org-roam-capture--get-point)
+           ""
+           :file-name "${=key=}"
+           :head "#+TITLE: ${title}\n
+                  #+ROAM_KEY: ${ref}
+
+- tags ::
+- keywords :: ${keywords}\n
+
+ * Meta information\n
+        :PROPERTIES:\n
+        :Custom_ID: ${=key=}\n
+        :URL: ${url}\n
+        :AUTHOR: ${author-or-editor}\n
+        :INTERLEAVE_PDF: %(orb-process-file-field \"${=key=}\")\n
+        :INTERLEAVE_PAGE_NOTE: \n
+        :END:\n\n"
+
+        :unnarrowed t)))
+  :bind (:map org-mode-map
+         (("C-c n a" . orb-note-actions))))
+#+END_SRC
+
+#+RESULTS:
+: orb-note-actions
+
+* Count words in buffer
+
+#+BEGIN_SRC emacs-lisp
+(defvar count-words-buffer
+  nil
+  "*Number of words in the buffer.")
+(defun update-wc ()
+  (interactive)
+  (setq count-words-buffer (number-to-string (count-words-buffer)))
+  (force-mode-line-update))
+(unless count-words-buffer
+  (run-with-idle-timer 1 t 'update-wc))
+(unless (memq 'count-words-buffer global-mode-string)
+  (add-to-list 'global-mode-string " words: " t)
+  (add-to-list 'global-mode-string 'count-words-buffer t))
+(defun count-words-buffer ()
+  "Count the number of words in the current paragraph."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (let ((count 0))
+      (while (not (eobp))
+    (forward-word 1)
+        (setq count (1+ count)))
+      count)))
+
+(require 'wc-goal-mode)
+(setq wc-goal-reached t)
+#+END_SRC
+
+
+* Org-journal settings
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-journal
+      :defer t
+      :bind
+      ("C-c n j" . org-journal-new-entry)
+      :custom
+      (org-journal-dir "~/Dropbox/Journal")
+      (org-journal-date-prefix "#+TITLE: ")
+      (org-journal-file-format "%Y-%m-%d.org")
+      (org-journal-date-format "%A, %d %B %Y"))
+(setq org-journal-enable-agenda-integration t)
+#+END_SRC
+
+* Spell-checking
+
+#+BEGIN_SRC emacs-lisp
+(require 'ispell)
+(require 'flyspell)
+
+(use-package! ispell
+  :defer t
+  :if (eq system-type 'windows-nt)
+  :custom ((add-to-list 'exec-path "C:/Users/Noorah/hunspell/bin/")
+           (ispell-program-name "hunspell")
+           (ispell-personal-dictionary "~/.emacs.d/hunspell_en_US/")
+           (ispell-local-dictionary "en_US")
+           (ispell-local-dictionary-alist
+            '(("en_US" "[[:alpha:]]" "[^[:alpha:]]" "[']" nil nil nil
+               utf-8)))))
+
+(ispell-change-dictionary "en_US" t)
+
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+#+END_SRC
+
+* Reveal.js + Org mode
+
+#+BEGIN_SRC emacs-lisp
+(require 'ox-reveal)
+(setq org-reveal-root "C:/Users/Noorah/reveal.js")
+(setq org-reveal-title-slide 'auto)
+#+END_SRC
+
+* Ox-hugo
+
+#+BEGIN_SRC emacs-lisp
+(with-eval-after-load 'ox
+  (require 'ox-hugo))
+#+END_SRC
+
+* Org-super-agenda
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-super-agenda
+  :after org-agenda
+  :config
+  (setq org-super-agenda-groups '((:name "Today"
+                                   :time-grid table
+                                   :scheduled today)
+                                  (:name "Due today"
+                                   :deadline today)
+                                  (:name "Important"
+                                   :priority "A")
+                                  (:name "Overdue"
+                                   :deadline past)
+                                  (:name "Due soon"
+                                   :deadline future)))
+  (org-super-agenda-mode))
+#+END_SRC
+
+* Org-roam-server
+
+#+BEGIN_SRC emacs-lisp
+(use-package org-roam-server
+  :config
+  (setq org-roam-server-host "127.0.0.1"
+        org-roam-server-port 8080
+        org-roam-server-authenticate nil
+        org-roam-server-export-inline-images t
+        org-roam-server-serve-files nil
+        org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
+        org-roam-server-network-poll t
+        org-roam-server-network-arrows nil
+        org-roam-server-network-label-truncate t
+        org-roam-server-network-label-truncate-length 60
+        org-roam-server-network-label-wrap-length 20)
+  (defun org-roam-server-open ()
+    "Ensure the server is active, then open the roam graph."
+    (interactive)
+    (org-roam-server-mode 1)
+    (browse-url-xdg-open (format "http://localhost:%d" org-roam-server-port))))
+#+END_SRC

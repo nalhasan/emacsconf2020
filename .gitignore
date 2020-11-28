@@ -1,0 +1,4 @@
+*.png
+*.svg
+/.auctex-auto/
+*.bbl

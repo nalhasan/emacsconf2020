@@ -1,0 +1,379 @@
+#+TITLE: Org-mode and Org-roam for Scholars and Researchers
+#+Author: Noorah Alhasan
+#+DATE: \today
+#+latex_header: \usepackage[style=apa,natbib=true,hyperref=true,backref=true,maxcitenames=3,url=true,backend=biber,doi=true,isbn=false,eprint=false]{biblatex}
+#+latex_header: \addbibresource{C:/Users/Noorah/Dropbox/Dissertation/library.bib}
+#+LATEX_HEADER: \definecolor{purple_royal}{RGB}{69, 28, 102}
+#+LATEX_HEADER: \definecolor{purple_plain}{RGB}{131, 102, 188}
+#+LATEX_HEADER: \definecolor{grey}{RGB}{51, 63, 72}
+#+LATEX_HEADER: \definecolor{DodgerBlue4}{RGB}{16, 78, 139}
+#+LATEX_HEADER: \definecolor{PaleGreen1}{RGB}{154, 255, 154}
+#+LATEX_HEADER: \usepackage{amsmath,amsfonts,amssymb,amsthm,enumerate,multirow,array,graphicx,lscape,lastpage,mathabx,csquotes}
+#+LATEX_HEADER: \usetheme{CambridgeUS}
+#+LATEX_HEADER: \usepackage{fontawesome}
+#+LaTeX_HEADER: \hypersetup{linktoc = all, colorlinks = true, urlcolor = DodgerBlue4, citecolor = PaleGreen1, linkcolor = black}
+#+LATEX_HEADER: \usefonttheme{professionalfonts}
+#+LATEX_HEADER: \usepackage{tikz}
+#+LATEX_HEADER: \usetikzlibrary{calc}
+#+LATEX_HEADER: \usepackage{subfig}
+#+LATEX_HEADER: \setbeamercolor{title}{fg=black}
+#+LATEX_HEADER: \setbeamercolor{frametitle}{fg=black}
+#+LATEX_HEADER: \setbeamercolor{structure}{fg=purple_royal}
+#+LATEX_HEADER: \setbeamercolor{section in head/foot}{fg=white, bg=purple_plain}
+#+LATEX_HEADER: \setbeamercolor{title in head/foot}{fg=white, bg=purple_royal}
+#+LATEX_HEADER: \setbeamercolor{date in head/foot}{fg=grey}
+#+LATEX_HEADER: \captionsetup[figure]{labelformat=empty}
+#+LATEX_HEADER: \setbeamertemplate{footline}
+#+LATEX_HEADER: {
+#+LATEX_HEADER: \leavevmode%
+#+LATEX_HEADER: \hbox{%
+#+LATEX_HEADER: \begin{beamercolorbox}[wd=.75\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+#+LATEX_HEADER:\usebeamerfont{author in head/foot}\inserttitle
+#+LATEX_HEADER:\end{beamercolorbox}%
+#+LATEX_HEADER: %\begin{beamercolorbox}[wd=.3\paperwidth,ht=2.25ex,dp=1ex,center]{section in head/foot}%
+#+LATEX_HEADER: %\usebeamerfont{title in head/foot}\insertsection
+#+LATEX_HEADER: %\end{beamercolorbox}%
+#+LATEX_HEADER: \begin{beamercolorbox}[wd=.25\paperwidth,ht=2.25ex,dp=1ex,center]{date in head/foot}%
+#+LATEX_HEADER: \insertframenumber{} / \inserttotalframenumber\hspace*{1ex}
+#+LATEX_HEADER:  \end{beamercolorbox}}%
+#+LATEX_HEADER:  \vskip0pt%
+#+LATEX_HEADER: }
+#+LATEX_HEADER: \subtitle{EmacsConf 2020}
+#+LATEX_HEADER: \author{Noorah Alhasan}
+#+LATEX_HEADER: \setbeamersize{text margin right=7mm}
+#+LATEX_HEADER: \setbeameroption{show notes}
+#+LATEX_HEADER: \titlegraphic{\includegraphics[width=0.2\textwidth,height=.25\textheight]{emacsconf.png}
+#+LATEX_HEADER: \hspace*{0.5cm}~%
+#+LATEX_HEADER:  \includegraphics[width=0.2\textwidth,height=.25\textheight]{org-mode-unicorn-logo.png}
+#+LATEX_HEADER: \hspace*{0.5cm}~%
+#+LATEX_HEADER:  \includegraphics[width=0.2\textwidth,height=.25\textheight]{org-roam.png}
+#+LATEX_HEADER: \hspace*{0.5cm}~%
+#+LATEX_HEADER:  \includegraphics[width=0.2\textwidth,height=.25\textheight]{orb.png}}
+#+OPTIONS: num:nil toc:nil todo:t
+#+REVEAL_TRANS: Slide
+#+REVEAL_INIT_OPTIONS: width:"100%", height:"100%", margin: 0.1, minScale:1, maxScale:1, slideNumber:true
+#+REVEAL_THEME: Serif
+#+REVEAL_TITLE_SLIDE: <img src="org-mode-unicorn-logo.png" alt="org-mode" class="center" width="160"> <h2 class="title"> %t </h2> <h4 class="author"> %a </h4> <h4 class="email"> %e </h4> <h6 class="date"> %d </h6><br><p><font size="4"> Created with Org-mode and Ox-reveal (Reveal.js) </font></p> 
+#+EMAIL: alhasan.noorah@gmail.com
+#+BIND: org-beamer-frame-default-options "allowframebreaks"
+
+
+
+* Introduction
+:PROPERTIES:
+:BEAMER_OPT: allowframebreaks
+:END:
+
+#+BEGIN_EXPORT latex
+
+\centering
+\begin{figure}
+\includegraphics[height=0.5\textheight]{meme2.png}
+\includegraphics[height=0.5\textheight]{meme1.png}
+\caption{The research process: expectation versus reality \textsuperscript{a,b}}
+\end{figure}
+
+\raggedright
+
+
+\scriptsize{\textsuperscript{a} My PhD Quotes. ``Progress is too messy to notice. Don't imagine it like a staircase." \textit{Instagram}, March 3, 2020. Accessed November 25, 2020. \url{https://bit.ly/39loTSf}}
+
+\scriptsize{\textsuperscript{b} My PhD Quotes. ``The most relatable post to describe my current situation." \textit{Instagram}, February 28, 2020. Accessed November 25, 2020. \url{https://bit.ly/3mk2U1K}}
+
+\normalsize
+
+\framebreak
+#+END_EXPORT
+
+- Motivation
+  + Research is hard
+  + Writing is even more difficult
+- Goal is to add some /structure/ to the *madness*. (Unfortunately, the madness never stops)
+  + ~Org-mode~: planning, time-management, document creation (manuscripts and presentations)
+    - ~Org-super-agenda~: customized way of viewing agenda
+    - ~Org-sidebar~: buffer-specific agenda/ ~TODO~ view.
+    - ~Org-roam~: note-taking and general writing, knowledge creation
+    - ~Org-roam-bibtex~: reference management, literature review
+    - ~Org-roam-server~: visualize your knowledge database
+    - ~Org-transclusion~: transclude text from `branch' org files to `main' org file.
+
+* Org-mode modules
+
+#+ATTR_LATEX: :width 0.75\textwidth
+[[file:org-mode2.png]]
+
+
+
+* Planning
+
+  + Activities
+    - Task management (pomodoro method; time-blocking)
+    - Time management (appointments; time-blocking)
+
+* ~TODO~'s and tags
+:PROPERTIES:
+:BEAMER_OPT: allowframebreaks
+:END:
+
+\small
+
+- These are identifiers in an org-file as tasks or reminders.
+- The types of ~TODO~'s can either be set *globally* in your init file, or they can be *file/buffer* specific.
+- They are created as a subtree (think `heading'), or in-line (~'org-inlinetask~).
+- You can assign deadlines, scheduled date and time, active timestamps, and inactive timestamps.
+
+#+ATTR_LATEX: :width 0.7\textwidth
+[[file:todo-buffer.png]]
+
+\normalsize
+
+** Exclude :noexport:
+- *Deadlines*: ~TODO~ must be completed at a certain date and time. Date is mandatory but time is optional.
+- *Scheduled*: Must start task on a certain date and time.
+- *Active timestamp*: Behaves like an appointment.
+- *Inactive timestamp*: shows under the task but does not appear in the agenda.
+
+* Org-capture
+
+These are customizable org-headings that you can create on-the-go. They can be regular ~TODO~'s or just notes.
+
+
+#+BEGIN_EXPORT latex
+\centering
+\begin{figure}
+\includegraphics[width=0.3\textwidth]{6.png}
+\includegraphics[width=0.65\textwidth]{org-capture-config.png}
+\end{figure}
+#+END_EXPORT
+
+
+* Org-agenda
+:PROPERTIES:
+:BEAMER_OPT: allowframebreaks
+:END:
+
+
+- Populates all your ~TODO~'s and appointments into a singular view.
+  + Default is week-view.
+- Using ~org-super-agenda~, I set up my agenda as a daily view with appointments, deadlines, and a habit tracker.
+- *NOTE*: I am STILL struggling with it, so it's a *PrOcEsS*.
+
+#+ATTR_LATEX: :width 0.75\textwidth
+[[file:org-super-agenda.png]]
+
+#+BEGIN_EXPORT latex
+\centering
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{org-agenda-timeblocking2.png}
+\includegraphics[width=0.45\textwidth]{org-timeblocking.png}
+\end{figure}
+#+END_EXPORT
+
+
+* Org-gcal (Appointments from Google calendar) :noexport:
+
+- A package (still alive and working) that syncs all your Google calendar entries with ~org-mode~, which then can be added to your ~org-agenda-files~.
+
+- It's mostly Google calendar $\rightarrow$ org-mode.
+
+#+ATTR_LATEX: :width 0.65\textwidth
+[[file:org-gcal.png]]
+
+* Org-habit (Recurring tasks but prettier) :noexport:
+
+A package (it's built-in) produces a visual for recurring tasks, i.e. habits, that you can also have appearing in your agenda.
+
+#+ATTR_LATEX: :width 0.65\textwidth
+[[file:org-habit.png]]
+
+* Org-sidebar
+
+Another way of accessing your ~TODO~'s that are outside of your agenda. I am using it to keep my project-specific ~TODO~'s in the main project org file.
+
+
+#+ATTR_LATEX: :width 0.75\textwidth
+[[file:org-sidebar.png]]
+
+* ~TODO~ 's and tags :noexport:
+
+#+ATTR_HTML: :width 550 :style display:inline
+#+ATTR_LATEX: :width 0.85\textwidth
+[[file:init.el_20200329_180056_xitTr0.png]]
+
+* ~TODO~ 's and tags :noexport:
+
+#+ATTR_LATEX: :width 0.85\textwidth
+#+ATTR_HTML: :width 550 :style display:inline
+[[file:Proposal.org_20200329_182231_vvs3sT.png]]
+
+# #+BEGIN_NOTES
+# Talk about the ~noexport~ tag
+# #+END_NOTES
+
+* Properties drawer :noexport:
+#+ATTR_HTML: :style font-size:30px
+- Each org heading, also called a subtree, within an org file can have certain properties.
+  + For example, you can assign a unique ~ID~ (~org-id-get-create~) that is searchable, refiled, or hyperlinked throughout emacs, create a specific org-export filename for that subtree, or add any other configuration that is subtree specific.
+
+* Properties drawer :noexport:
+
+#+ATTR_HTML: :width 500 :style display:inline
+#+ATTR_LATEX: :width 0.75\textwidth
+[[file:Proposal.org_20200330_192520_cqrX8N.png]]
+
+* Properties drawer :noexport:
+
+#+ATTR_HTML: :width 500 :style display:inline
+#+ATTR_LATEX: :width 0.75\textwidth
+[[file:3.png]]
+
+* Org-clock :noexport:
+
+Last time we briefly talked about org-clock, which is basically clocking any of your current tasks. To invoke clocking a task requires two things:
+
+1. An org-heading.
+2. An ~:EFFORT:~ property set for a length of time.
+
+I've customized my org-clock setting such that the minute I clock into a task, it switches the state of the heading to ~STARTED~, so it can appear in my agenda.
+
+* Literature review (writing + reference management)
+:PROPERTIES:
+:BEAMER_OPT: allowframebreaks
+:END:
+
+#+ATTR_LATEX: :width 0.55\textwidth
+[[file:lit_review2.png]]
+
+#+ATTR_LATEX: :width 0.9\textwidth
+[[file:lit_review.png]]
+
+\framebreak
+
+*Zotero*: open-source reference management software
+- *BetterBibTex*: automatically creates well-formated bib files and manages reference keys in a systematic way.
+- *ZotFile*: Efficient plug-in to organize PDFs.
+
+* Org-roam
+:PROPERTIES:
+:BEAMER_OPT: allowframebreaks
+:END:
+
+A note-taking package that replicates Roam Research which is based on the Zettelkasten method. I use it to build my literature review and I use ~org-roam-server~ to visualize my notes into a network.
+
+- It builds on the strength of ~org-mode~'s hyperlinking properties.
+
+
+#+BEGIN_EXPORT latex
+\centering
+\begin{figure}
+\includegraphics[width=0.3\textwidth]{7.png}
+\includegraphics[width=0.65\textwidth]{org-roam2.png}
+\end{figure}
+#+END_EXPORT
+
+* Org-roam-bibtex
+:PROPERTIES:
+:BEAMER_OPT: allowframebreaks
+:END:
+
+Utilizes a combination of ~org-ref~, ~helm-bibtex~, and ~bibtex-completion~ to streamline note-taking workflow with references within the ~org-roam~ ecosystem.
+
+#+BEGIN_EXPORT latex
+\centering
+\begin{figure}
+\includegraphics[width=0.65\textwidth]{orb-article.png}
+\includegraphics[width=0.45\textwidth]{orb-config.png}
+\end{figure}
+#+END_EXPORT
+
+#+ATTR_LATEX: :width 0.8\textwidth
+[[file:orb-book.png]]
+
+* Org-ref :noexport:
+
+- I started out with ~org-ref~, and I still use some of its command especially with citation styles.
+- You can add references to your master ~.bib~ file straight into emacs and can cite references in any org file within emacs.
+- I have all my references in one bib file so I don't have to specify a bib file in each org-buffer, but it also allows other bib files as long as you invoke them within an org file.
+
+* Org-noter
+
+- I use it to annotate PDFs and take notes within the same buffer.
+  - Works extremely well with ~PDF-tools~.
+  - ~org-noter-create-skeleton~
+
+#+ATTR_HTML: :width 750 :style display:inline
+#+ATTR_LATEX: :width \textwidth
+[[file:org-noter.png]]
+
+* Org-transclusion
+:PROPERTIES:
+:BEAMER_OPT: allowframebreaks
+:END:
+
+- An effective way of "copy/pasting" text from one org file (let's say an org-roam note or a section of your thesis/dissertation) into your main org file.
+- It will export all the transcluded text.
+- Sort of equivalent to "~#+INCLUDE:~"
+
+#+ATTR_LATEX: :width 0.6\textwidth
+[[file:org-include.png]]
+
+#+ATTR_LATEX: :width \textwidth
+[[file:org-transclusion.png]]
+
+* Exporters :noexport:
+:PROPERTIES:
+:BEAMER_OPT: allowframebreaks
+:END:
+
+Default org-mode exporter include ~.tex~, ~.pdf~, ~.odt~, and ~.html~. Other backend org-exporters include packages such as ~ox-pandoc~, ~ox-reveal~, and ~ox-hugo~.
+
+
+#+ATTR_LATEX: :width 0.85\textwidth
+[[file:4.png]]
+
+* Thank you!
+
+** Special thanks
+
+- [[https://github.com/jethrokuan][@jethrokuan]] (~org-roam~)
+- [[https://github.com/zaeph][@zaeph]] (~org-roam-bibtex~; ~org-roam~)
+- [[https://github.com/myshevchuk][@myshevchuk]] (~org-roam-bibtex~)
+- [[https://github.com/goktug97][@goktug97]] (~org-roam-server~)
+- [[https://github.com/nobiot][@nobiot]] (~org-transclusion~)
+- [[https://github.com/alphapapa][@alphapapa]] (~org-super-agenda~; ~org-sidebar~)
+
+* Org-babel :noexport:
+
+#+ATTR_HTML: :style font-size:30px
+This package is for code execution within org-mode files. Basically, literate programming.
+
+#+BEGIN_EXPORT html
+<p style="font-size:30px">
+I use it for <img src="Rlogo.png" alt="Rlogo.png" height="35px" valign="-20px" />, <img src="python.png" alt="python.png" height="35px" valign="-20px" />, and <img src="latex.png" alt="python.png" height="38px" valign="-28px" />.
+</p>
+#+END_EXPORT
+
+* Org-babel :noexport:
+
+#+BEGIN_SRC R :results output pdf :exports results
+1+1
+#+END_SRC
+
+#+RESULTS:
+#+begin_export latex
+[1] 2
+#+end_export
+
+* Org-babel :noexport:
+
+#+ATTR_HTML: :width 750 :style display:inline
+#+ATTR_LATEX: :width 0.85\textwidth
+[[file:2020-03-28-1033 Org-mode.org_20200330_210612_Sa67q6.png]]
+
+* Org-refile :noexport:
+
+A way to move org subtrees from one place to another. It can be within an org file or across org files.
+
+* Org-super-agenda :noexport:
+
+Same creator of org-sidebar, but this one is like pimping your org-agenda.
